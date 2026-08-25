@@ -111,7 +111,7 @@ match_id = int(matches.loc[matches["etiqueta"] == match_label, "match_id"].iloc[
 # Cuerpo principal
 # ---------------------------------------------------------------------------
  
-st.title("⚽ Análisis de pases con StatsBomb + mplsoccer")
+st.title("⚽ Análisis de pases con StatsBomb")
 st.caption(f"Partido: {match_label} (match_id={match_id})")
  
 events = load_events(match_id)
