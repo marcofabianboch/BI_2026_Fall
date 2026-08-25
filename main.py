@@ -71,7 +71,28 @@ def plot_minute(final: pd.DataFrame, minuto: int):
         st.info(f"No hubo pases registrados en el minuto {minuto}.")
         return fig
  
-    sns.scatterplot(x="x0", y="y0", data=data_minuto, hue="team", ax=axs)
+    # Un color por equipo, consistente con el orden alfabético (para que no
+    # cambie de color entre minutos distintos).
+    equipos = sorted(data_minuto.team.unique())
+    paleta = sns.color_palette(n_colors=len(equipos))
+ 
+    for equipo, color in zip(equipos, paleta):
+        datos_equipo = data_minuto[data_minuto.team == equipo]
+        # pitch.arrows dibuja una flecha por cada pase, desde (x0,y0) hasta
+        # (x1,y1) => la punta de la flecha indica la dirección del pase.
+        pitch.arrows(
+            datos_equipo.x0,
+            datos_equipo.y0,
+            datos_equipo.x1,
+            datos_equipo.y1,
+            ax=axs,
+            color=color,
+            width=2,
+            headwidth=6,
+            headlength=6,
+            label=equipo,
+        )
+ 
     axs.legend(loc="upper center", ncol=2)
     return fig
  
@@ -137,3 +158,4 @@ st.pyplot(fig_pitch)
  
 with st.expander("Ver tabla de pases filtrados"):
     st.dataframe(final[final.minute == minuto])
+ 
