@@ -111,11 +111,21 @@ match_id = int(matches.loc[matches["etiqueta"] == match_label, "match_id"].iloc[
 # Cuerpo principal
 # ---------------------------------------------------------------------------
  
-st.title("⚽ Análisis de pases con StatsBomb")
-st.caption(f"Partido: {match_label} (match_id={match_id})")
- 
 events = load_events(match_id)
 final = build_passes_df(events)
+ 
+# El listado de jugadores depende del partido elegido arriba, así que se arma
+# aquí (una vez que ya tenemos "final"), pero sigue apareciendo en el sidebar.
+jugadores = sorted(final["player"].dropna().unique())
+jugador_seleccionado = st.sidebar.selectbox("Jugador", ["Todos"] + jugadores)
+ 
+if jugador_seleccionado != "Todos":
+    final = final[final.player == jugador_seleccionado]
+ 
+st.title("⚽ Análisis de pases con StatsBomb + mplsoccer")
+st.caption(f"Partido: {match_label} (match_id={match_id})")
+if jugador_seleccionado != "Todos":
+    st.caption(f"Jugador: {jugador_seleccionado}")
  
 st.subheader("Pases por minuto sobre la cancha")
  
