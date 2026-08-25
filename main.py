@@ -143,7 +143,7 @@ jugador_seleccionado = st.sidebar.selectbox("Jugador", ["Todos"] + jugadores)
 if jugador_seleccionado != "Todos":
     final = final[final.player == jugador_seleccionado]
  
-st.title("⚽ Análisis de pases con StatsBomb + mplsoccer")
+st.title("⚽ Análisis de pases con StatsBomb")
 st.caption(f"Partido: {match_label} (match_id={match_id})")
 if jugador_seleccionado != "Todos":
     st.caption(f"Jugador: {jugador_seleccionado}")
